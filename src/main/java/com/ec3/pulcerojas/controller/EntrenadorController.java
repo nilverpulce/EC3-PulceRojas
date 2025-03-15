@@ -1,5 +1,6 @@
 package com.ec3.pulcerojas.controller;
 
+import com.ec3.pulcerojas.dto.EntrenadorDTO;
 import com.ec3.pulcerojas.model.Entrenador;
 import com.ec3.pulcerojas.service.EntrenadorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class EntrenadorController {
     private EntrenadorService entrenadorService;
 
     @PostMapping
-    public Entrenador guardar(@RequestBody Entrenador entrenador) {
-        return entrenadorService.guardar(entrenador);
+    public Entrenador guardar(@RequestBody EntrenadorDTO entrenadorDTO) {
+        return entrenadorService.guardar(entrenadorDTO);
     }
 
     @GetMapping
@@ -27,5 +28,10 @@ public class EntrenadorController {
     @GetMapping("/{id}")
     public Entrenador obtenerPorId(@PathVariable Long id) {
         return entrenadorService.obtenerPorId(id);
+    }
+
+    @PutMapping("/{id}")
+    public Entrenador actualizar(@PathVariable Long id, @RequestBody EntrenadorDTO entrenadorDTO) {
+        return entrenadorService.actualizar(id, entrenadorDTO);
     }
 }
