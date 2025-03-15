@@ -1,5 +1,6 @@
 package com.ec3.pulcerojas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Entrenador {
     private String especialidad;
     private String telefono;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "entrenador", cascade = CascadeType.ALL)
     private List<Clase> clases;
 

@@ -1,5 +1,6 @@
 package com.ec3.pulcerojas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ public class Clase {
 
     @ManyToOne
     @JoinColumn(name = "entrenador_id", nullable = false)
+    @JsonIgnoreProperties("clases")
     private Entrenador entrenador;
 
     public Long getId() {
