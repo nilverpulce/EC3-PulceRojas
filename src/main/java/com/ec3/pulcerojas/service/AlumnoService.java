@@ -8,4 +8,6 @@ public interface AlumnoService {
     Alumno guardar(AlumnoDTO alumnoDTO);
     List<Alumno> listar();
     Alumno obtenerPorId(Long id);
+    Alumno actualizar(Long id, AlumnoDTO alumnoDTO);
+    boolean eliminar(Long id);
 }

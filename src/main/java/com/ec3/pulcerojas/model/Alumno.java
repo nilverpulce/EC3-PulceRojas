@@ -2,6 +2,8 @@ package com.ec3.pulcerojas.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "alumnos")
 public class Alumno {
@@ -11,7 +13,7 @@ public class Alumno {
 
     private String nombre;
     private String apellidos;
-    private String fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String dni;
     private String telefono;
     private String email;
@@ -41,11 +43,11 @@ public class Alumno {
         this.apellidos = apellidos;
     }
 
-    public String getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
