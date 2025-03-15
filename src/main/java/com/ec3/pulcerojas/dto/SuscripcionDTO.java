@@ -1,37 +1,19 @@
-package com.ec3.pulcerojas.model;
+package com.ec3.pulcerojas.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "suscripciones")
-public class Suscripcion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "alumno_id", nullable = false)
-    private Alumno alumno;
-
+public class SuscripcionDTO {
+    private Long alumnoId;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private double monto;
 
-    public Long getId() {
-        return id;
+    public Long getAlumnoId() {
+        return alumnoId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Alumno getAlumno() {
-        return alumno;
-    }
-
-    public void setAlumno(Alumno alumno) {
-        this.alumno = alumno;
+    public void setAlumnoId(Long alumnoId) {
+        this.alumnoId = alumnoId;
     }
 
     public LocalDate getFechaInicio() {
