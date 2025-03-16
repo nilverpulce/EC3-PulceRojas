@@ -17,10 +17,15 @@ public class EntrenadorServiceImpl implements EntrenadorService {
 
     @Override
     public Entrenador guardar(EntrenadorDTO entrenadorDTO) {
+        if (entrenadorRepository.existsByTelefono(entrenadorDTO.getTelefono())) {
+            throw new RuntimeException("El teléfono ya está registrado");
+        }
+
         Entrenador entrenador = new Entrenador();
         entrenador.setNombre(entrenadorDTO.getNombre());
         entrenador.setEspecialidad(entrenadorDTO.getEspecialidad());
         entrenador.setTelefono(entrenadorDTO.getTelefono());
+
         return entrenadorRepository.save(entrenador);
     }
 
@@ -31,28 +36,25 @@ public class EntrenadorServiceImpl implements EntrenadorService {
 
     @Override
     public Entrenador obtenerPorId(Long id) {
-        return entrenadorRepository.findById(id).orElse(null);
+        return entrenadorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Entrenador no encontrado"));
     }
 
     @Override
     public Entrenador actualizar(Long id, EntrenadorDTO entrenadorDTO) {
         Entrenador entrenador = obtenerPorId(id);
-        if (entrenador != null) {
-            entrenador.setNombre(entrenadorDTO.getNombre());
-            entrenador.setEspecialidad(entrenadorDTO.getEspecialidad());
-            entrenador.setTelefono(entrenadorDTO.getTelefono());
-            return entrenadorRepository.save(entrenador);
-        }
-        return null;
+
+        entrenador.setNombre(entrenadorDTO.getNombre());
+        entrenador.setEspecialidad(entrenadorDTO.getEspecialidad());
+        entrenador.setTelefono(entrenadorDTO.getTelefono());
+
+        return entrenadorRepository.save(entrenador);
     }
 
     @Override
     public boolean eliminar(Long id) {
         Entrenador entrenador = obtenerPorId(id);
-        if (entrenador != null) {
-            entrenadorRepository.delete(entrenador);
-            return true;
-        }
-        return false;
+        entrenadorRepository.delete(entrenador);
+        return true;
     }
 }

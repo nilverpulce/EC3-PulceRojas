@@ -3,6 +3,7 @@ package com.ec3.pulcerojas.controller;
 import com.ec3.pulcerojas.dto.EntrenadorDTO;
 import com.ec3.pulcerojas.model.Entrenador;
 import com.ec3.pulcerojas.service.EntrenadorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class EntrenadorController {
     private EntrenadorService entrenadorService;
 
     @PostMapping
-    public Entrenador guardar(@RequestBody EntrenadorDTO entrenadorDTO) {
+    public Entrenador guardar(@Valid @RequestBody EntrenadorDTO entrenadorDTO) {
         return entrenadorService.guardar(entrenadorDTO);
     }
 
@@ -31,7 +32,17 @@ public class EntrenadorController {
     }
 
     @PutMapping("/{id}")
-    public Entrenador actualizar(@PathVariable Long id, @RequestBody EntrenadorDTO entrenadorDTO) {
+    public Entrenador actualizar(@PathVariable Long id, @Valid @RequestBody EntrenadorDTO entrenadorDTO) {
         return entrenadorService.actualizar(id, entrenadorDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public String eliminar(@PathVariable Long id) {
+        boolean eliminado = entrenadorService.eliminar(id);
+        if (eliminado) {
+            return "Entrenador eliminado correctamente";
+        } else {
+            return "No se encontró el entrenador";
+        }
     }
 }

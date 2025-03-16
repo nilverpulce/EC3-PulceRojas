@@ -3,6 +3,7 @@ package com.ec3.pulcerojas.controller;
 import com.ec3.pulcerojas.dto.ClaseDTO;
 import com.ec3.pulcerojas.model.Clase;
 import com.ec3.pulcerojas.service.ClaseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class ClaseController {
     private ClaseService claseService;
 
     @PostMapping
-    public Clase guardar(@RequestBody ClaseDTO claseDTO) {
+    public Clase guardar(@Valid @RequestBody ClaseDTO claseDTO) {
         return claseService.guardar(claseDTO);
     }
 
@@ -31,7 +32,7 @@ public class ClaseController {
     }
 
     @PutMapping("/{id}")
-    public Clase actualizar(@PathVariable Long id, @RequestBody ClaseDTO claseDTO) {
+    public Clase actualizar(@PathVariable Long id, @Valid @RequestBody ClaseDTO claseDTO) {
         return claseService.actualizar(id, claseDTO);
     }
 

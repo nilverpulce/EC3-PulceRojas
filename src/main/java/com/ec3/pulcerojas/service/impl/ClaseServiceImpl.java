@@ -22,15 +22,18 @@ public class ClaseServiceImpl implements ClaseService {
 
     @Override
     public Clase guardar(ClaseDTO claseDTO) {
-        Entrenador entrenador = entrenadorRepository.findById(claseDTO.getEntrenadorId()).orElse(null);
-        if (entrenador == null) {
-            throw new RuntimeException("Entrenador no encontrado");
+        if (claseRepository.existsByDescripcionAndFecha(claseDTO.getDescripcion(), claseDTO.getFecha())) {
+            throw new RuntimeException("Ya existe una clase con esta descripción en la misma fecha");
         }
+
+        Entrenador entrenador = entrenadorRepository.findById(claseDTO.getEntrenadorId())
+                .orElseThrow(() -> new RuntimeException("Entrenador no encontrado"));
 
         Clase clase = new Clase();
         clase.setDescripcion(claseDTO.getDescripcion());
         clase.setFecha(claseDTO.getFecha());
         clase.setEntrenador(entrenador);
+
         return claseRepository.save(clase);
     }
 
@@ -41,32 +44,28 @@ public class ClaseServiceImpl implements ClaseService {
 
     @Override
     public Clase obtenerPorId(Long id) {
-        return claseRepository.findById(id).orElse(null);
+        return claseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Clase no encontrada"));
     }
 
     @Override
     public Clase actualizar(Long id, ClaseDTO claseDTO) {
         Clase clase = obtenerPorId(id);
-        if (clase != null) {
-            Entrenador entrenador = entrenadorRepository.findById(claseDTO.getEntrenadorId()).orElse(null);
-            if (entrenador == null) {
-                throw new RuntimeException("Entrenador no encontrado");
-            }
-            clase.setDescripcion(claseDTO.getDescripcion());
-            clase.setFecha(claseDTO.getFecha());
-            clase.setEntrenador(entrenador);
-            return claseRepository.save(clase);
-        }
-        return null;
+
+        Entrenador entrenador = entrenadorRepository.findById(claseDTO.getEntrenadorId())
+                .orElseThrow(() -> new RuntimeException("Entrenador no encontrado"));
+
+        clase.setDescripcion(claseDTO.getDescripcion());
+        clase.setFecha(claseDTO.getFecha());
+        clase.setEntrenador(entrenador);
+
+        return claseRepository.save(clase);
     }
 
     @Override
     public boolean eliminar(Long id) {
         Clase clase = obtenerPorId(id);
-        if (clase != null) {
-            claseRepository.delete(clase);
-            return true;
-        }
-        return false;
+        claseRepository.delete(clase);
+        return true;
     }
 }

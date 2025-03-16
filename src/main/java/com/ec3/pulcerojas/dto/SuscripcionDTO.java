@@ -1,11 +1,21 @@
 package com.ec3.pulcerojas.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class SuscripcionDTO {
+    @NotNull(message = "El ID del alumno es obligatorio")
     private Long alumnoId;
+
+    @NotNull(message = "La fecha de inicio es obligatoria")
     private LocalDate fechaInicio;
+
+    @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDate fechaFin;
+
+    @Min(value = 1, message = "El monto debe ser mayor a 0")
     private double monto;
 
     public Long getAlumnoId() {

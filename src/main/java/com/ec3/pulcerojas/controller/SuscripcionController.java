@@ -3,6 +3,7 @@ package com.ec3.pulcerojas.controller;
 import com.ec3.pulcerojas.dto.SuscripcionDTO;
 import com.ec3.pulcerojas.model.Suscripcion;
 import com.ec3.pulcerojas.service.SuscripcionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class SuscripcionController {
     private SuscripcionService suscripcionService;
 
     @PostMapping
-    public Suscripcion guardar(@RequestBody SuscripcionDTO suscripcionDTO) {
+    public Suscripcion guardar(@Valid @RequestBody SuscripcionDTO suscripcionDTO) {
         return suscripcionService.guardar(suscripcionDTO);
     }
 
@@ -31,7 +32,7 @@ public class SuscripcionController {
     }
 
     @PutMapping("/{id}")
-    public Suscripcion actualizar(@PathVariable Long id, @RequestBody SuscripcionDTO suscripcionDTO) {
+    public Suscripcion actualizar(@PathVariable Long id, @Valid @RequestBody SuscripcionDTO suscripcionDTO) {
         return suscripcionService.actualizar(id, suscripcionDTO);
     }
 

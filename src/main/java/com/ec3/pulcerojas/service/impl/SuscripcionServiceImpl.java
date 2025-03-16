@@ -22,10 +22,8 @@ public class SuscripcionServiceImpl implements SuscripcionService {
 
     @Override
     public Suscripcion guardar(SuscripcionDTO suscripcionDTO) {
-        Alumno alumno = alumnoRepository.findById(suscripcionDTO.getAlumnoId()).orElse(null);
-        if (alumno == null) {
-            throw new RuntimeException("Alumno no encontrado");
-        }
+        Alumno alumno = alumnoRepository.findById(suscripcionDTO.getAlumnoId())
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
 
         Suscripcion suscripcion = new Suscripcion();
         suscripcion.setAlumno(alumno);
@@ -43,35 +41,28 @@ public class SuscripcionServiceImpl implements SuscripcionService {
 
     @Override
     public Suscripcion obtenerPorId(Long id) {
-        return suscripcionRepository.findById(id).orElse(null);
+        return suscripcionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Suscripción no encontrada"));
     }
 
     @Override
     public Suscripcion actualizar(Long id, SuscripcionDTO suscripcionDTO) {
         Suscripcion suscripcion = obtenerPorId(id);
-        if (suscripcion != null) {
-            Alumno alumno = alumnoRepository.findById(suscripcionDTO.getAlumnoId()).orElse(null);
-            if (alumno == null) {
-                throw new RuntimeException("Alumno no encontrado");
-            }
+        Alumno alumno = alumnoRepository.findById(suscripcionDTO.getAlumnoId())
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
 
-            suscripcion.setAlumno(alumno);
-            suscripcion.setFechaInicio(suscripcionDTO.getFechaInicio());
-            suscripcion.setFechaFin(suscripcionDTO.getFechaFin());
-            suscripcion.setMonto(suscripcionDTO.getMonto());
+        suscripcion.setAlumno(alumno);
+        suscripcion.setFechaInicio(suscripcionDTO.getFechaInicio());
+        suscripcion.setFechaFin(suscripcionDTO.getFechaFin());
+        suscripcion.setMonto(suscripcionDTO.getMonto());
 
-            return suscripcionRepository.save(suscripcion);
-        }
-        return null;
+        return suscripcionRepository.save(suscripcion);
     }
 
     @Override
     public boolean eliminar(Long id) {
         Suscripcion suscripcion = obtenerPorId(id);
-        if (suscripcion != null) {
-            suscripcionRepository.delete(suscripcion);
-            return true;
-        }
-        return false;
+        suscripcionRepository.delete(suscripcion);
+        return true;
     }
 }
